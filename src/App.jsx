@@ -11,7 +11,8 @@ import City from "./components/City";
 import Form from "./components/Form";
 
 import CountriesList from "./components/CountriesList";
-import { CitiesProvider } from "./contexts/CitiesContext";
+//import { CitiesProvider } from "./contexts/CitiesContext";
+import { CitiesProvider } from "./contexts/CitiesContextWithReducer";
 function App() {
   return (
     <CitiesProvider>
