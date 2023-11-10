@@ -25,7 +25,7 @@ function App() {
         console.info(data);
         setCities(data);
       } catch {
-        alert("something went wrong with the api call for city");
+        console.error("something went wrong with the api call for city");
       } finally {
         setIsLoading(false);
       }
@@ -63,7 +63,7 @@ function App() {
           ></Route>
           <Route path="form" element={<Form></Form>}></Route>
         </Route>
-        +<Route path="*" element={<PageNotFound />}></Route>
+        <Route path="*" element={<PageNotFound />}></Route>
       </Routes>
     </BrowserRouter>
   );
