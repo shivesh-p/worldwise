@@ -10,7 +10,7 @@ import {
   useMapEvent,
 } from "react-leaflet";
 import { useEffect, useState } from "react";
-import { useCities } from "../contexts/CitiesContext";
+import { useCities } from "../contexts/CitiesContextWithReducer";
 import { useGeolocation } from "../hooks/useGeolocation";
 import Button from "./Button";
 import { useCustomUrl } from "../hooks/useCustomUrl";
