@@ -1,5 +1,11 @@
 /* eslint-disable react/prop-types */
-import { createContext, useEffect, useContext, useReducer } from "react";
+import {
+  createContext,
+  useEffect,
+  useContext,
+  useReducer,
+  useCallback,
+} from "react";
 const CitiesContext = createContext();
 const BASE_URL = "http://localhost:8000";
 
@@ -71,23 +77,28 @@ export function CitiesProvider({ children }) {
     }
     fetchCities();
   }, []);
-  async function getCity(id) {
-    //no need to call the api for get city if the current city is clicked again
-    if (Number(id) === currentCity.id) return;
-    try {
-      dispatch({ type: "loading" });
-      const response = await fetch(`${BASE_URL}/cities/${id}`);
-      const data = await response.json();
-      console.info(data);
-      dispatch({ type: "city/loaded", payload: data });
-    } catch {
-      console.error("something went wrong with the api call for get city");
-      dispatch({
-        type: "error",
-        payload: "something went wrong with the api call for get city",
-      });
-    }
-  }
+
+  //here callback is used to memoize the function for the get city http calls
+  const getCity = useCallback(
+    async function getCity(id) {
+      //no need to call the api for get city if the current city is clicked again
+      if (Number(id) === currentCity.id) return;
+      try {
+        dispatch({ type: "loading" });
+        const response = await fetch(`${BASE_URL}/cities/${id}`);
+        const data = await response.json();
+        console.info(data);
+        dispatch({ type: "city/loaded", payload: data });
+      } catch {
+        console.error("something went wrong with the api call for get city");
+        dispatch({
+          type: "error",
+          payload: "something went wrong with the api call for get city",
+        });
+      }
+    },
+    [currentCity.id]
+  );
   async function createCity(newCity) {
     try {
       dispatch({ type: "loading" });

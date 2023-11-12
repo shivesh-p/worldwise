@@ -22,11 +22,19 @@ function City() {
 
   const { getCity, currentCity, isLoading } = useCities();
 
+  /*now that the function getcity has been memoized, the calls for the getCity are not infinite
+   and it runs only once, before memoization each update in the current state caused by the function 
+    getcity caused the context to rerender as it is at the topmost level, now each rerender of the context
+    caused the un-memoized functions to get created again , hence a new function, each new function now passed  as prop
+    to the context caused the child components to rerender, and since it is inside the dependency array,
+    it caused the useEffect in city to run again and the same process repeats, this is an infinite loop,
+     which was solved by using the memoized getCity function.
+   */
   useEffect(
     function () {
       getCity(id);
     },
-    [id]
+    [id, getCity]
   );
 
   // TEMP DATA
